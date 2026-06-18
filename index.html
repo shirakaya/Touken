@@ -550,12 +550,16 @@
         const img = document.getElementById('mapImage');
         if (!container || !img) return;
         const cw = container.clientWidth, ch = container.clientHeight;
-        const iw = img.naturalWidth || cw * 2, ih = img.naturalHeight || ch * 2;
-        const scaledW = iw * mapScale, scaledH = ih * mapScale;
-        const minX = Math.min(0, cw - scaledW), maxX = Math.max(0, cw - scaledW);
-        const minY = Math.min(0, ch - scaledH), maxY = Math.max(0, ch - scaledH);
-        mapX = Math.max(minX, Math.min(maxX, mapX));
-        mapY = Math.max(minY, Math.min(maxY, mapY));
+        // 使用 clientWidth 获取 CSS 渲染后的基础尺寸（包含 width:200% 等），再乘缩放比例
+        const baseW = img.clientWidth || (img.naturalWidth || cw * 2);
+        const baseH = img.clientHeight || (img.naturalHeight || ch * 2);
+        const scaledW = baseW * mapScale, scaledH = baseH * mapScale;
+        // transform-origin: center center 下，translate 移动的是中心点
+        // 图片边缘刚好对齐容器边缘时的最大偏移量
+        const halfDiffX = Math.max(0, (scaledW - cw) / 2);
+        const halfDiffY = Math.max(0, (scaledH - ch) / 2);
+        mapX = Math.max(-halfDiffX, Math.min(halfDiffX, mapX));
+        mapY = Math.max(-halfDiffY, Math.min(halfDiffY, mapY));
     }
 
     function applyMapTransform(smooth = false) {
