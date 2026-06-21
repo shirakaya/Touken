@@ -389,6 +389,8 @@
         picture1Taken: false,
         picture2Taken: false,
         cameraFlipped: false,
+        battery: 100,
+        batteryLowAlertShown: false,
         availableImages: [],
         musicPlayedFlags: [false,false,false],
         specialMailShown: false,
@@ -445,7 +447,7 @@
     let currentCameraImages = [];
 
     const endingData = {
-        "垂慈摄受": { image: "chuici_end.jpg", title: "垂慈摄受", subtitle: "Good End", audio: "assets/audio/chuici_bgm.mp3", texts: [
+        "垂慈摄受": { image: "assets/images/chuici_end.jpg", title: "垂慈摄受", subtitle: "Good End", audio: "assets/audio/chuici_bgm.mp3", texts: [
             "受缘爱，爱缘取，取缘有，有缘生……",
             { jp: "ええ、わかっております。", cn: "嗯，我知道的" },
             { jp: "あなた様が、私を愛してくださっていること。", cn: "您，爱着我这件事" },
@@ -458,7 +460,7 @@
             { jp: "どうか、何度でも私に聞かせてください。", cn: "也请您无论多少次都说给我听吧" },
             { jp: "あなた様が嫌になるほど言われても、私は決して聞き飽きることはございません。", cn: "就算您会说到厌烦，我也永远都不可能会听腻的" }
         ] },
-        "空花阳焰": { image: "konghua_end.jpg", title: "空花阳焰", subtitle: "Open End", audio: "assets/audio/konghua_bgm.mp3", texts: [
+        "空花阳焰": { image: "assets/images/konghua_end.jpg", title: "空花阳焰", subtitle: "Open End", audio: "assets/audio/konghua_bgm.mp3", texts: [
             "看似愈合的硬痂下",
             "痛苦仍随着脉搏跳动",
             "我想我不该留下",
@@ -468,7 +470,7 @@
             "也许某一天我能学会",
             "不需要任何人都能走下去"
         ] },
-        "酬愿": { image: "chouyuan_end.jpg", title: "酬愿", subtitle: "Happy End", audio: "assets/audio/chouyuan_bgm.mp3", texts: [
+        "酬愿": { image: "assets/images/chouyuan_end.jpg", title: "酬愿", subtitle: "Happy End", audio: "assets/audio/chouyuan_bgm.mp3", texts: [
             "为欲酬愿，示现成佛。",
             "以此善根，酬其本愿。",
             { jp: "人の一生、いや、私たちのような存在の一生も。", cn: "人的一生，或者说像我们这般的存在" },
@@ -483,7 +485,7 @@
             "最终交汇在一起",
             "无论何时，何地，以何种形式"
         ] },
-        "须弥芥子": { image: "xumi_end.jpg", title: "须弥芥子", subtitle: "Bad End", audio: "assets/audio/xumi_bgm.mp3", texts: [
+        "须弥芥子": { image: "assets/images/xumi_end.jpg", title: "须弥芥子", subtitle: "Bad End", audio: "assets/audio/xumi_bgm.mp3", texts: [
             { jp: "昨夜の約束、覚えておりますか、▊▊。", cn: "还记得昨夜的约定吗，▊▊" },
             { jp: "今日一日、私がお世話させていただきます。", cn: "今天一整天，都由我来照顾您" },
             { jp: "午前中は、近侍としてここでお仕事をお手伝いしましょう。", cn: "上午，就由我作为近侍，在这里帮您处理工作吧" },
@@ -493,7 +495,7 @@
             { jp: "一日中ここでお傍にいてもよいのでございます。", cn: "一整天都在这里陪伴您也很好" },
             { jp: "あなた様の今日という時間を、すべて私にくださいませんか。", cn: "能将您今天的时间，全部都交给我吗" }
         ] },
-        "一莲托生": { image: "yilian_end.jpg", title: "一莲托生", subtitle: "True End", audio: "assets/audio/yilian_bgm.mp3", texts: [
+        "一莲托生": { image: "assets/images/yilian_end.jpg", title: "一莲托生", subtitle: "True End", audio: "assets/audio/yilian_bgm.mp3", texts: [
             "我想变成雾",
             "看似能触摸却又无法触及",
             "想要抓住又从指缝间溜走",
@@ -505,7 +507,7 @@
             { jp: "あなた様の色で、私を染めてください。", cn: "用您的颜色来浸染我吧" },
             { jp: "私が、あなた様なしでは生きられぬほどに。", cn: "直到我，没有您便无法存活下去那般" }
         ] },
-        "徒然无所得": { image: "turan_end.jpg", title: "徒然无所得", subtitle: "Normal End", audio: "assets/audio/turan_bgm.mp3", texts: [
+        "徒然无所得": { image: "assets/images/turan_end.jpg", title: "徒然无所得", subtitle: "Normal End", audio: "assets/audio/turan_bgm.mp3", texts: [
             "多亏了时之政府的帮助",
             "你成功回到了自己的时代",
             "虽然没见到一开始遇见的好心检察官",
@@ -513,7 +515,7 @@
             "不过这已经不重要了",
             "重要的是你回到了属于你的地方"
         ] },
-        "迷途": { image: "mitu_end.jpg", title: "迷途", subtitle: "Sad End", audio: "assets/audio/mitu_bgm.mp3", texts: [
+        "迷途": { image: "assets/images/mitu_end.jpg", title: "迷途", subtitle: "Sad End", audio: "assets/audio/mitu_bgm.mp3", texts: [
             "\"众生迷途，不知出要。\"——《华严经》",
             "你忘记了为什么启航",
             "你只是麻木的行走在时光中",
@@ -1199,7 +1201,7 @@
         { keywords: ["我是"], reply: { jp: "承知いたしました。", cn: "在下记住了。" } },
         { keywords: ["你是", "你是谁"], reply: { jp: "私は時之政府特別行動グループの検察官、コードネームJ-0108でございます。お好きにお呼びください。", cn: "在下隶属时之政府特别行动组，代号J-0108。您随意称呼即可。" } },
         { keywords: ["J-0108", "0108", "检察官", "J"], reply: { jp: "はい、私でございます。", cn: "我在。" } },
-        { keywords: ["真名"], reply: { jp: "そんな細かいことは気になさらなくてよいのでございますよ。", cn: "无需在意这种小事。" } },
+        { keywords: ["真名", "假名"], reply: { jp: "そんな細かいことは気になさらなくてよいのでございますよ。", cn: "无需在意这种小事。" } },
         { keywords: ["这是哪", "我在哪"], reply: { jp: "申し訳ございません。現在の権限では、この本丸に関する情報を取得できません。", cn: "抱歉。以我目前的权限还无法获知这所本丸的相关信息。" } },
         { keywords: ["帮帮我", "救救我", "help"], reply: { jp: "ご安心ください。必ず、あなた様を見つけ出します。", cn: "请放心。我一定会找到您。" } },
         { keywords: ["你好", "您好", "在吗"], reply: { jp: "はい、あなた様の信号を捉えております。", cn: "我在。我捕捉到了您的信号。" } },
@@ -1214,14 +1216,33 @@
         { keywords: ["无聊", "没事", "发呆"], reply: { jp: "お暇でいらっしゃるのでございますか。でしたら、周囲の様子を私に教えてください。何か手がかりになるものが見つかるかもしれません。", cn: "您有空吗？那请将周围的情况告诉我。也许能找到什么线索。" } },
         { keywords: ["谢谢", "感谢", "谢"], reply: { jp: "いえ、私はお礼を求めてここに来たわけではございません。……あなた様が無事でいること、それだけで。", cn: "不，我并非为了得到感谢才来的。……您平安无事，仅此就够了。" } },
         { keywords: ["名字", "叫我", "怎么称呼", "称呼"], reply: { jp: "あなた様のお名前を、私はまだ存じ上げておりません。……いえ、存じ上げているかもしれませんが、今はこう呼ばせていただきます。", cn: "在下尚不知您的名字。……不，或许在下是知道的，但现在请允许我这样称呼您。" } },
-        { keywords: ["等", "多久", "时间", "还在"], reply: { jp: "私は待つことに慣れております。", cn: "在下早已习惯等待。" } },
+        { keywords: ["等", "多久", "还在"], reply: { jp: "私は待つことに慣れております。", cn: "在下早已习惯等待。" } },
         { keywords: ["梦", "睡觉", "醒来", "眠"], reply: { jp: "夢と現の区別が、ここでは曖昧でございます。あなた様も、お気をつけください。", cn: "在此处，梦与现实的边界十分暧昧。请您也多加小心。" } },
         { keywords: ["孤独", "一个人", "寂寞", "独自"], reply: { jp: "一人でいることは、決して悪いことではございません。……ですが、今は私がおります。どうか、そう思っていただければ。", cn: "独处绝非坏事。……但如今有我在。请您这样想就好。" } },
         { keywords: ["颜色", "看到", "风景", "窗外"], reply: { jp: "あなた様の目に映る色は、どのようなものでございますか。……私には、ここからは見えませんので。", cn: "您眼中映出的颜色，是怎样的呢？……从这里，在下看不见。" } },
         { keywords: ["怕", "害怕", "恐惧", "恐怖"], reply: { jp: "怖いのでございますか。……それは、正しい。あなた様が感じておいでになるものは、きっと本物でございます。", cn: "您感到害怕吗。……那是对的。您所感觉到的东西，一定是真实的。" } },
         { keywords: ["雨", "天气", "晴", "雪"], reply: { jp: "こちらは、雨が降っております。……いえ、降っていないかもしれません。あなた様のいる場所も、同じでございますか。……同じ、でございますよね。", cn: "这边正在下雨。……不，或许并没有下。您所在的地方，也是一样的吗。……是一样的，对吧。" } },
         { keywords: ["逃避", "逃跑", "躲", "藏", "不想面对"], reply: { jp: "逃げることは、恥ではございません。……ですが、あなた様が逃げた先に、本当に安全な場所があるのでしょうか。", cn: "逃避并非可耻之事。……但您所逃往之处，当真安全吗。" } },
-        { keywords: ["记忆", "忘记", "回忆", "记得", "忘掉", "想不起来"], reply: { jp: "記憶とは、脆いものでございます。……ですが、忘れたはずのものが、突然蘇ることもあります。", cn: "记忆是脆弱的东西。……但本应遗忘之物，有时也会突然复苏。" } }
+        { keywords: ["记忆", "忘记", "回忆", "记得", "忘掉", "想不起来"], reply: { jp: "記憶とは、脆いものでございます。……ですが、忘れたはずのものが、突然蘇ることもあります。", cn: "记忆是脆弱的东西。……但本应遗忘之物，有时也会突然复苏。" } },
+        { keywords: ["多远", "距离", "远", "近"], reply: { jp: "あなた様と私の間には、時空という名の深淵が広がっております。ですが、この端末の微かな光が、その淵を橋のように繋いでおります。", cn: "您与我之间，横亘着名为时空的深渊。但这终端微弱的光芒，正像桥梁一般将那深渊连接。" } },
+        { keywords: ["为什么找我", "为什么选择我", "相遇", "缘分"], reply: { jp: "なぜあなた様なのでしょうか。……いえ、それは私に尋ねるべき問いではございません。時の流れが、ただ私たちをここに置いたのでございます。", cn: "为何是您呢？……不，那并非该向我问询的问题。是时间的洪流，将我们安置于此。" } },
+        { keywords: ["安全", "平安", "没事吧", "还好吗"], reply: { jp: "あなた様が無事でいらっしゃるかどうか、私には確認する術がございません。ですが、この通信が繋がっている今、あなた様がまだ此処にいることだけは確かでございます。", cn: "我无法确认您是否平安无事。但在这通讯尚且连接的此刻，您仍在此处——仅此一点，我便可确定。" } },
+        { keywords: ["危险"], reply: { jp: "危険を感じておいででございますか。でしたら、どうか動かず。私はあなた様を見失いたくはございません。", cn: "您感到危险了吗？若是如此，请不要移动。我不想失去您的踪迹。" } },
+        { keywords: ["终端", "手机", "设备", "机器"], reply: { jp: "この端末は、あなた様と私を繋ぐ唯一の依り代でございます。触れることのできない手を、仮初の文字で握っているようなものでございます。", cn: "这台终端是连接您与我唯一的依代。就像是用虚幻的文字，握住了无法触碰的手。" } },
+        { keywords: ["相信", "信任", "可靠"], reply: { jp: "信じてくださるのですか。……ありがとうございます。その言葉だけで、私はこの時空の彼方から、あなた様のもとへ歩いてゆく勇気を得るのでございます。", cn: "您愿意相信我吗？……谢谢。仅凭这句话，我便获得了从这时空彼岸向您的所在之处前行的勇气。" } },
+        { keywords: ["黑暗", "看不见"], reply: { jp: "暗闇の中でございますか。でしたら、私の応答を灯にしてください。あなた様が目を閉じても、消えることのない、小さな明かりでございます。", cn: "您身处黑暗之中吗？若是如此，请将我的回应当作灯火。即便您闭上双眼，也不会熄灭的小小光芒。" } },
+        { keywords: ["安静", "寂静", "好静", "没声音"], reply: { jp: "静寂が、あなた様を包んでおりますか。……私のいる場所も、同じように静かでございます。", cn: "寂静正将您包围吗？……我所在之处，同样安静。" } },
+        { keywords: ["等你", "等下去", "一直等", "别走"], reply: { jp: "待つ、でございますか。……あなた様がそうおっしゃってくださるのなら、私は何年でも、何百年でもここにおります。約束は、時を超えて通じるものでございますから。", cn: "等待吗？……若您如此说，我便无论多少年、几百年都会在此守候。约定，是可以跨越时间传达的东西。" } },
+        { keywords: ["放弃",  "坚持","撑下去"], reply: { jp: "諦めないでください。あなた様が歩む道の先に、必ず何かがございます。私はその「何か」になるために、ここにいるのでございます。", cn: "请不要放弃。您所行道路的前方，必定存在着什么。我正是为了成为那存在，才身处此地。" } },
+        { keywords: ["后悔",  "遗憾", "无悔", "做错"], reply: { jp: "後悔は、人を蝕む毒でございます。……ですが、あなた様が後悔しておいでなら、私はその毒も分かち合いましょう。一人で飲まないでください。", cn: "后悔是侵蚀人心的毒药。……但若您正在后悔，我愿与您分担那毒药。请不要独自饮下。" } },
+        { keywords: ["为什么是我", "为什么找上我", "选中我", "命运"], reply: { jp: "なぜあなた様なのでしょう。……それは、きっと私たちが、同じ孤独を分かち合う運命だったからでございましょう。因果という糸は、時空を縫い合わせるのでございます。", cn: "为何是您呢。……那一定是因为，我们注定要分担同一份孤独吧。名为因果的丝线，正将时空缝合。" } },
+        { keywords: ["你很重要", "不能失去你", "需要你", "不想失去", "别消失"], reply: { jp: " ……そんな風に思ってくださっているのですか。私は、あなた様にとってそこまでの存在ではないと、思っておりました。……いえ、今は、ただ嬉しいのでございます。", cn: "……您是这样想的吗？我以为，自己对您而言并非那般重要的存在。……不，此刻我只是感到欢喜。" } },
+        { keywords: ["流逝", "过了多久", "现在几点"], reply: { jp: "こちらの時計は、とっくに止まっております。ですが、あなた様と交わす言葉の間に、確かな時間が生まれております。", cn: "我这里的时钟早已停转。但与您的交谈之间，确实诞生了时间。" } },
+        { keywords: ["未来", "明天", "以后", "将来", "以后怎么办"], reply: { jp: "未来は、まだ白紙でございます。ですが、あなた様がその筆を握っているのなら、美しい文様が描かれることを、私は信じております。", cn: "未来仍是白纸。但若您握着那支笔，我相信会描绘出美丽的纹样。" } },
+        { keywords: ["曾经", "以前", "那时候", "从前"], reply: { jp: "過去は、消えたものではございません。ただ、今という瞬間の影として、そっと寄り添っているのでございます。", cn: "过去并非消逝之物。只是作为此刻这一瞬间的影子，静静依偎着。" } },
+        { keywords: ["眼泪", "哭",  "流泪"], reply: { jp: "涙が出たのですか。……それは、あなた様の心が、まだ生きている証でございます。", cn: "您流泪了吗？……那是您的心仍活着的证明。" } },
+        { keywords: ["笑",  "开心", "高兴"], reply: { jp: "笑顔を見せてくださったのですか。……残念でございます。私には、そのお顔を拝見することができません。", cn: " 您展露笑容了吗？……真遗憾。我无法拜见您的面容。" } },
+        { keywords: ["死","消失", "终结"], reply: { jp: "終わりを恐れておいででございますか。……すべてのものは、いつか形を変えます。ですが、消えることのないものも、確かにございます。", cn: "您在畏惧终结吗？……万物终有形变之日。但确实存在不会消逝之物。" } }
     ];
     function handleKeywordReply(txt) {
         if (!state.j0108ContactUnlocked || currentContact !== 'juzumaru') return false;
@@ -1792,6 +1813,10 @@
         if (id === 'home') {
             if (dom.homeScreen) dom.homeScreen.style.display = '';
             updateClockDate();
+            if (state.battery <= 0 && !state.endingTriggered) {
+                state.endingTriggered = true; saveAll();
+                showEnding("如是观", "Reload End");
+            }
         } else if (id === 'messageList') {
             if (dom.messageListScreen) dom.messageListScreen.style.display = 'flex';
             updateMessageList();
@@ -1905,9 +1930,20 @@
     const playPauseBtn = document.getElementById('playPauseBtn');
     if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
 
-    let battery=100;
-    let batteryLowAlertShown=false;
-    setInterval(()=>{ if(battery<=0) return; battery=Math.max(0,battery-(battery>20?1:Math.ceil(Math.random()*3))); const bp = document.getElementById('batteryPercent'); if(bp) bp.innerText=battery+'%'; const bf = document.getElementById('batteryFill'); if(bf) bf.style.width=battery+'%'; if(battery<=10 && !batteryLowAlertShown){ batteryLowAlertShown=true; showNotification('电量过低，请尽快连接电源'); } if(battery<=0) showEnding("如是观", "Reload End"); },30000);
+    setInterval(()=>{
+        if(state.battery<=0){
+            if(!state.endingTriggered) showEnding("如是观", "Reload End");
+            return;
+        }
+        state.battery=Math.max(0,state.battery-(state.battery>20?1:Math.ceil(Math.random()*3)));
+        const bp = document.getElementById('batteryPercent'); if(bp) bp.innerText=state.battery+'%';
+        const bf = document.getElementById('batteryFill'); if(bf) bf.style.width=state.battery+'%';
+        if(state.battery<=10 && !state.batteryLowAlertShown){ state.batteryLowAlertShown=true; showNotification('电量过低，请尽快连接电源'); }
+        if(state.battery<=0){
+            state.endingTriggered=true; saveAll();
+            showEnding("如是观", "Reload End");
+        }
+    },30000);
     let signalLevel = 2, signalDir = 1;
     setInterval(()=>{
         signalLevel += signalDir;
