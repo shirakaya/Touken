@@ -249,7 +249,7 @@
                     <div id="mapMarker" style="position:absolute; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:20px; color:#ff3b30; text-shadow:0 0 8px rgba(255,59,48,0.8); transform:translate(-50%,-50%); z-index:5; pointer-events:none;">✦</div>
                 </div>
             </div>
-            <div id="mapCoords" style="position:absolute; bottom:12px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.6); color:#c3b7f0; padding:4px 12px; border-radius:12px; font-family:'Courier New',monospace; font-size:11px; z-index:10; letter-spacing:1px;">X:000 Y:000</div>
+            <div id="mapCoords" style="position:absolute; bottom:12px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.6); color:#8a76c5; padding:4px 12px; border-radius:12px; font-family:'Courier New',monospace; font-size:11px; z-index:10; letter-spacing:1px;">X:000 Y:000</div>
         </div>
     </div>
     <div id="darkOverlay"></div>
@@ -269,18 +269,35 @@
 
 (function() {
     const BASE_MAIL_DATA = [
-        { sender: "时之政府监督委员会", subject: "关于时空观测基准的修正通知", body: "据最新时空波动观测数据，██████号本丸于2216年11月13日的观测记录中出现异常时空波动，与历史基准存在3%偏移。\n\n该偏移目前仍在可控阈值内，但为防止本丸坐标漂移导致通讯链路失稳，请自收到本通知之日起，尽快校准您的终端时间基准，以免后续与时政通讯产生时序违和。" },
-        { sender: "时之政府特别调查科", subject: "关于‘失踪监察官’问询函", body: "据最近一期监察报告，编号J-0108的监察官于前往██████号本丸执行例行巡查后，与特别调查科失去联络，断联时长已逾240小时。\n\n若您在本丸内或周边时空发现任何与此相关的异常迹象、通讯残留或行踪线索，请依最高优先级立即上报，切勿延误。" },
-        { sender: "J-0108 (私人信道)", subject: "拂晓的应答", body: "我在此境中看见了您的倒影。\n如果您读到这封邮件，请尽快回复我的邮件，我将短暂获得您的通讯方式。\n此处时空裂隙已经微张。但是不必惊慌，我会保护您。" }
+        { sender: "时之政府监督委员会", subject: "关于时空观测基准的修正通知", body: "最新の時空波動観測データによると、██████号本丸は2216年11月13日の観測記録において、異常な時空波動が確認されました。\n据最新时空波动观测数据，██████号本丸于2216年11月13日的观测记录中出现异常时空波动。\n\n歴史基準と比較して3%のずれが生じております。\n与历史基准存在3%偏移。\n\n現時点では当該ずれは制御可能な閾値内にありますが、\n该偏移目前仍在可控阈值内，\n\n本丸座標の漂移による通信リンクの不安定化を防ぐため、\n但为防止本丸坐标漂移导致通讯链路失稳，\n\n本通知到着後、速やかに端末の時間基準を校正してください。\n请自收到本通知之日起，尽快校准您的终端时间基准。\n\n今後、時政通信において時序違和が生じないようお願いいたします。\n以免后续与时政通讯产生时序违和。" },
+        { sender: "时之政府特别调查科", subject: "关于‘失踪检察官’问询函", body: "最近期の監察報告によりますと、コード番号J-0108の検察官は██████号本丸へ巡回査察を実施した後、\n据最近一期监察报告，编号J-0108的检察官于前往██████号本丸执行例行巡查后，\n\n特別調査科との連絡が途絶え、現在まで240時間を超える通信断絶状態が続いております。\n与特别调查科失去联络，断联时长已逾240小时。\n\n本丸内または周辺時空において、本件に関連する異常兆候、通信残留、あるいは行動痕跡などを発見された場合は、\n若您在本丸内或周边时空发现任何与此相关的异常迹象、通讯残留或行踪线索，\n\n直ちに最優先事項として報告してください。\n请依最高优先级立即上报，\n\n遅延のないよう、お願いいたします。\n切勿延误。" },
+        { sender: "J-0108 (私人信道)", subject: "拂晓的应答", body: "この境において、私はあなた様の倒影を見ております。\n我在此境中看见了您的倒影。\n\nもしこのメールをお読みになられましたら、できるだけ早くご返信ください。\n如果您读到这封邮件，请尽快回复我的邮件，\n\nそうすれば、私は一時的にあなた様の通信方式を取得できます。\n我将短暂获得您的通讯方式。\n\n此処の時空裂隙は、すでに微かに開いております。\n此处时空裂隙已经微张。\n\nですが、どうか慌てなさらず。\n但是不必惊慌，\n\n私がお守りいたします。\n我会保护您。" }
     ];
-    const SOS_MAIL_1 = { sender: "时之政府救援协调部", subject: "关于救援请求的回复", body: "敬启者：\n\n尊敬的████阁下，时之政府已收到您发出的求救信号。\n\n尽管您目前已卸任审神者职务，但念及您过往对时之政府之贡献，经特批，我们将就近调遣检察官前往您所在时空坐标，实施紧急援助。\n\n在援护人员抵达之前，请务必确保自身安全，减少非必要行动。" };
-    const SOS_MAIL_2 = { sender: "时之政府救援协调部", subject: "关于救援派遣的更新通知", body: "敬启者：\n\n尊敬的████阁下，现就救援派遣事宜向您通报最新进展。\n\n因特殊状况，原定就近派遣之检察官目前无法成行。我们已紧急改派其他检察官前往您所在时空，并已顺利锚定您的坐标位置。\n\n请保持终端畅通，耐心等待。" };
+    const SOS_MAIL_1 = { sender: "时之政府救援协调部", subject: "关于救援请求的回复", body: "拝啓\n敬启者：\n\n████様、時之政府は貴殿より発せられた求救信号を受信いたしました。\n尊敬的████阁下，时之政府已收到您发出的求救信号。\n\nたとえ貴殿は現在審神者の職を退かれておりますが、これまでの時之政府への貢献を顧み、\n尽管您目前已卸任审神者职务，但念及您过往对时之政府之贡献，\n\n特別に承認された措置として、貴殿の所在する時空座標へ最寄りの検察官を派遣し、緊急援助を実施いたします。\n经特批，我们将就近调遣检察官前往您所在时空坐标，实施紧急援助。\n\n救援人員が到着するまで、どうかご自身の安全を確保の上、不要な行動は控えていただきますようお願い申し上げます。\n在援护人员抵达之前，请务必确保自身安全，减少非必要行动。" };
+    const SOS_MAIL_2 = { sender: "时之政府救援协调部", subject: "关于救援派遣的更新通知", body: "拝啓\n敬启者：\n\n████様、救援派遣の件につきまして、最新の進捗状況をご報告申し上げます。\n尊敬的████阁下，现就救援派遣事宜向您通报最新进展。\n\n特殊な状況により、当初予定しておりました最寄りの検察官の派遣は現時点では不可能となりました。\n因特殊状况，原定就近派遣之检察官目前无法成行。\n\nこれを受け、他の検察官を緊急に派遣させていただき、貴殿の時空座標の錨定を完了しております。\n我们已紧急改派其他检察官前往您所在时空，并已顺利锚定您的坐标位置。\n\nどうか端末を開放状態に保ち、しばらくお待ちください。\n请保持终端畅通，耐心等待。" };
     const TIP_MAIL = { sender: "???", subject: "终端使用须知（？）", body: "这台设备的时间显示似乎不太稳定，在不同日期醒来时，窗外的风景也许会变——也可能不会，谁知道呢。\n\n相机是个好东西，但记得多换几个角度看看。有些东西第一眼看不清，第二眼……也不一定看得清。\n\n如果聊天对象已读不回，也许不是网不好。试着给他看点什么？人对视觉信息总是更敏感嘛。\n\n邮件箱会自己长出新邮件，像蘑菇一样。记得勤收信，但别什么信都回——有些收件人可能并不想收到你的回复。\n\n日历上的待办事项可以划掉，也可以写新的。不过……已经写上去的事情，真的划得掉吗？\n\n音乐播放器里的歌，听完可能会留下点什么。也可能什么都不留下。取决于你在哪一天按下播放键。\n\n电量会自己跑掉，像沙漏里的沙子。低电量时记得找充电器——虽然这里可能并没有插座。\n\n如果觉得自己在原地打转，试试：①把看到的东西分享出去 ②去没去过的时间逛逛 ③检查一下邮箱有没有漏读的信 ④对日程表做点手脚。总有一招管用。" };    const GUIDE_MAIL_1 = { sender: "???", subject: "抄作业是不对的", body: "怎么了怎么了？\n又发生了什么事情。\n你说终端使用须知写的太模糊了？\n这是解密游戏啊——怎么可以一开始就给答案。\n抄作业是不对的。\n请多在时空里游走一下吧，或许会有意外惊喜！\n\nTip：我是按照刀啃乱布的游戏内时间和游戏外游戏真实上线时间设计的（日服日服）！\n所以有些日期你看着眼熟的话……不要怀疑自己，相信你的直觉。\n\n比较关键的时间节点位于8周年，无论按游戏内还是游戏外时间。\n中间的一百多年只是因为设计日历只能这样连续......\n对的，跳转基本什么都不会发生。\n哦，设计时间的时候还参考了某个刃的相关信息（例如开放日，重要财什么的）。\n\n还有，不要一上来就给J-0108发SOS，那样很多路线会被关掉的！\n先和他好好聊聊天不好吗？\n如果遇见图片裂开了，不要问图图去哪了。它后面会出现的。\n原因是因为网页加载图片很慢，容易裂开。我已经尽量把单张图压到150k以内了，但是首次加载还是避免不了有这个问题，都怪github！\n\nP.S. 如果你已经死档了……设置里有初始化按钮，按一下就好了。\n求求你们不要再笑这个游戏了，为了能正常运行我用尽了一切手段......如果还有bug，不是特别严重的就重新开始嘛，求求你了" };
     const GUIDE_MAIL_2 = { sender: "???", subject: "小抄（不要告诉别人）", body: "真是拿你没办法。既然你又来求救了。那我就写小抄给你。\n此系统没有阅后即焚的效果。\n所以如果看到了，记住了，就当这封信不存在好吗？\n求求你了，我磨了这么久才做出来的。\n被人速通了，我不白设计了嘛......\n\n━━━━━━━━━━━━━━━━━━━━━━\n【小抄·时间跳转篇】\n━━━━━━━━━━━━━━━━━━━━━━\n\n日历右上角那个⚙️按钮，点进去可以跳时间。\n年份低于2000会报错，不要试了，我没做内容（诚实）。\n\n几个关键日期记得去：\n• 2024-01-19 到 2026-11-03 之间 → 文件里会多出一篇日记\n• 2213-07-13 到 2214-01-18 之间 → 健康诊断书解锁\n• 2225-07-03 之后 → 有一份档案等着你\n• 2205-01-14 → 会多出一个聊天对象哦\n• 2023-01-05 → 有我的彩蛋（喂）\n\n还有，2214-01-18 这个日子很特殊。\n去文件里看看「独白」在那天是不是能正常显示了？\n\n━━━━━━━━━━━━━━━━━━━━━━\n【小抄·聊天篇】\n━━━━━━━━━━━━━━━━━━━━━━\n\n给J-0108发邮件就能解锁聊天，记得同意定位！\n不同意也能玩，但会少很多剧情，而且跳转20次以上会迷路……\n\n和他聊天时多发点东西：\n• 照片（去相机里拍，不同日期能拍到不一样的）\n• 文件（解锁后在文件应用里，点+号就能发）\n\n每发一个文件他都会说点什么，这些都是「收集要素」！\n要触发好结局的话，日记、诊断书、档案都要发给他看一遍。\n\n━━━━━━━━━━━━━━━━━━━━━━\n【小抄·关键词篇】\n━━━━━━━━━━━━━━━━━━━━━━\n\nJ-0108有26组关键词回复，多试试不同的词。\n但更重要的是——跳转时间超过5次之后，试着输入「数珠丸恒次」。\n对，就是他的真名。他会吓一跳的（笑）。\n\n━━━━━━━━━━━━━━━━━━━━━━\n【小抄·结局篇】\n━━━━━━━━━━━━━━━━━━━━━━\n\n8个结局，触发条件我懒得全写了，但给你几个提示：\n\n• 想要Happy End / True End：不要发SOS！不要发SOS！不要发SOS！\n  重要的事说三遍。发求救邮件会关闭很多路线。\n\n• 想要垂慈摄受（Good End）：\n  多发文件，多跳转，识破真名，同意定位，然后输入「我喜欢你」。\n  对，就是要这样！\n\n• 想要空花阳焰（Open End）：\n  这个很刁钻。你需要「读过所有文件」但「没发给他看过」。\n  也就是自己偷偷看完，然后发SOS求救，再输入「我该走了」。\n  ……对的对的，对吗？\n\n• 想要一莲托生（True End）：\n  全收集路线。所有文件反应都要触发，真名要识破，定位要同意，\n  虫干会的彩蛋要触发，失踪检察官邮件要读过，且不能发SOS。\n  然后随便输入什么，那个人会自己走向你。毕竟，他和你都等了太久太久了。\n\n• 电量归零会触发「如是观」，然后强制重启。\n  这不是坏结局，这是「你挂机太久被系统踢下线了」。\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n好了，小抄给完了。\n求你当作没看到，慢慢玩，好吗？\n我写了那么多隐藏台词，你速通的话它们就永远沉睡了……\n\nP.S. 如果还是死档了，设置里有初始化。再死一次的话……\n那就再看一遍这封邮件吧，反正它不会消失的（苦笑）。\n\n——某个一边测bug一边祈祷不要速通的开发者" };
 
     const EASTER_EGG_MAIL = { sender: "未知", subject: "客串事件", body: "问过某刃的意见，让我加上这一段，纪念一下本人和他的相遇。\n2023年1月5日，本人在本丸第一次和名为数珠丸恒次的存在相遇。\n但其实根本不知道该说些什么。问他要不要我在这封信里写告白算了。\n他说不要，就此罢休。\n请把这当成单纯的彩蛋(｡- .•)\n有想过要不要按自己本丸的时间来设计路线。\n最后还是选择了讲诉一点幻想夜话。\n有些日期精心设计了，有些日期是随机乱打的，不必深究。\n如果有bug，请见谅。\n死档了，可以点击设置内的初始化可以重头来过。\n对，没有存档点……\n代码太复杂了，我的大纲一变再变已经约等于没有大纲了。\n希望不要有酒吧点炒饭事件，我真的不想修bug(Ｔ▽Ｔ)" };
 
     const CREDIT_MAIL = { sender: "系统", subject: "素材与版权说明", body: "本游戏使用的所有背景音乐（BGM）版权归属于「びじえもん」（BGMemon）。\n\n部分图片素材来源于 Pexels 免费图库，遵循其使用许可协议。\n\n感谢各位创作者提供的优质资源。" };
+    const EMAILL_MAIL = { sender: "笑面青江", subject: "关于那个人的事", body: "おやおや、驚いたよ。\n哎呀，吓我一跳。\n\nまさか君からメールが来るなんてね。\n没想到还能收到您的邮件。\n\nそうだね、君が何を聞きたいのか、当ててみようか——\n让我猜猜——\n\n『なんでメールを送ったら返事が来るんだ』ってところかな？\n您是不是想问，为什么给我发邮件还会收到回复？\n\n僕はね、少し昔のことを引きずるたちでね、\n我呢，只是稍微有点念旧，\n\nこのアドレス、ずっとそのままにしてあるんだよ。\n所以这个地址一直没换过。\n\n君が知りたいこと、だいたい見当はついてるよ。\n您想问的事情，我大概猜得到是什么。\n\nでもね、最初から答えを言っちゃつまらないだろう？\n不过啊，一上来就把答案说出来多没意思，\n\n少しずつ教えてあげるからさ。\n我会一点一点告诉您的。\n\nまずは、あの人のことについて、ちょっと推理してみてよ。\n先猜猜看吧，关于那个人的事。" };
+    const EMAILL_MAIL_2 = { sender: "笑面青江", subject: "主", body: "おやおや、主、最近顔色が良くないね。\n哦呀哦呀，主人，最近脸色不太好啊。\n\n風邪かい？\n感冒了吗？\n\n……いや、違うだろうね。\n……不，不是吧。\n\n僕は刀だから、霊力の匂いには敏感でね。\n我是刀嘛，对灵力的气味很敏感的。\n\n数珠丸さんに言ったほうがいいかな？\n要告诉数珠丸先生吗？\n\n……やめておくよ。\n……还是不说为好。\n\n言ったらあの人、絶対に何か始めるから。\n说了的话那个人，肯定会做些什么的。\n\nまたね。\n回头见。\n\n2213年5月5日" };
+    const EMAILL_MAIL_3 = { sender: "笑面青江", subject: "主の部屋", body: "今日も数珠丸さん、主の部屋の前を通るたびに足を止めてたね。\n今天数珠丸每次经过主人房门前都会停下脚步呢。\n\n『何かあったのか』って顔でさ。\n一副\"出什么事了吗\"的表情。\n\nでも中に入る前に、『静かに』って自分に言い聞かせて去ってく。\n但是进门之前，又对自己说\"不要打扰\"，然后转身离开。\n\n……あの人、自分に言い聞かせるのが上手すぎるんだよ。\n……那个人啊，太擅长说服自己了。\n\n僕はああいうの、ちょっと気持ち悪いと思うけどね。\n我倒是觉得那种样子有点令人不舒服呢。\n\nじゃあ。\n拜。\n\n2213年7月16日" };
+    const EMAILL_MAIL_4 = { sender: "笑面青江", subject: "仏間", body: "数珠丸さんが仏間で祈る時間が増えたよ。\n数珠丸在佛间祈愿的时间变长了。\n\n昨日なんて、夜通し明かりがついてたね。\n昨天晚上啊，灯亮了一整夜呢。\n\n何を祈ってるのかな、って聞いたら……『わからない』ってさ。\n我问他\"在祈祷什么\"……他说\"不知道\"。\n\nへえ、あの数珠丸恒次が『わからない』って言うんだね。\n嚯，那个数珠丸恒次居然会说\"不知道\"。\n\n……やっぱり主、何か隠してるんだろ？\n……果然主人，您瞒了什么事吧？\n\n答えはまだ言わなくていいよ。\n答案不用现在告诉我。\n\n2213年8月13日" };
+    const EMAILL_MAIL_5 = { sender: "笑面青江", subject: "霊力", body: "主の霊力が不安定なの、多分数珠丸さんも気づいてると思うよ。\n主人灵力不稳定的事，大概数珠丸也已经察觉到了吧。\n\nでも彼、『気づかないふり』を選んだんだね。\n但是他选择了\"假装没发现\"。\n\nなぜかって？……だって彼、主が話したくないことを無理に聞き出すような人じゃないからね。\n为什么？……因为他不是那种会勉强别人说出不想说的事的人啊。\n\nああいう『優しさ』が、時には一番残酷だってこと、主は知ってる？\n那种\"温柔\"，有时候才是最残酷的——主人您知道吗？\n\n知ってるよね、きっと。\n您一定知道的吧。\n\n2213年9月2日" };
+    const EMAILL_MAIL_6 = { sender: "笑面青江", subject: "名前", body: "数珠丸さんが主の名前を呼ぶ回数が減ったよ。\n数珠丸叫主人名字的次数变少了。\n\n前は『彼女がどうした』『彼女は何を』って、会話の半分以上が主のことだったのに。\n以前啊，\"她怎么了\"\"她做了什么\"——大半的对话都是在说主人。\n\n今はもう……『彼女』って言いかけて、やめるんだ。\n现在，他已经……话说到\"她\"字就停住了。\n\nまるで、名前を呼んだら本当に何かが壊れてしまいそうでね。\n就好像，叫出那个名字的话，真的会有什么东西碎掉一样。\n\n壊れてもいいのにね、たまには。\n碎掉也没关系啊，偶尔的话。\n\n2213年10月3日" };
+    const EMAILL_MAIL_7 = { sender: "笑面青江", subject: "封印", body: "あとどのくらいかな、主。\n还有多久呢，主人。\n\n数珠丸さんが『気づかないふり』を続けられるのは。\n数珠丸还能继续\"假装没发现\"到什么时候呢。\n\n……ああ、でも彼の場合、『気づかないふり』というより『気づけないように自分を封印してる』のかもしれないね。\n……啊，不过对他来说，与其说\"假装没发现\"，不如说是在\"把自己封印起来以免发觉\"吧。\n\nまるで誰かに、彼自身の記憶を縛られたみたいにさ。\n就像有人把他的记忆束缚住了一样。\n\n誰か、って誰だろうね。\n\"有人\"是谁呢。\n\n2213年11月15日" };
+    const EMAILL_MAIL_8 = { sender: "笑面青江", subject: "新年", body: "明けましておめでとう、主。\n新年快乐，主人。\n\n……冗談だよ。\n……开玩笑的。\n\n年が明けたって、何も変わらないよね。\n就算新年到了，什么也不会改变吧。\n\n数珠丸さん、今日も仏間だよ。\n数珠丸今天也在佛间。\n\n『今年もよろしく』って言ったら、『よろしく』って返してくれたけど、あの目、去年のままだったね。\n我跟他说\"今年也请多关照\"，他回了我\"请多关照\"，但是那双眼睛，还停在去年呢。\n\n今年もよろしく、とは言わないでおくよ。\n\"今年也请多关照\"这种话，我就不说了。\n\n2214年1月1日" };
+    const EMAILL_MAIL_9 = { sender: "笑面青江", subject: "異動", body: "数珠丸さんに異動の話が来てるって聞いたよ。\n听说数珠丸收到了调任的通知。\n\nまあ、噂だけどね。\n嘛，虽然是传言。\n\nでも彼、『そうかもしれない』って言ってた。\n不过他说\"也许吧\"。\n\nああいう時、彼は絶対に『知らない』って言わないんだ。\n那种时候，他是绝对不会说\"不知道\"的。\n\n何かを知ってるから、平然としていられるんだと思う。\n正因为知道些什么，才能表现得那样平静。\n\n……知ってるのに、何も言わない。\n……明明知道，却什么都不说。\n\n何も言わないって、僕には結構難しいことなんだよね。\n什么都不说，对我来说还挺难的。\n\n2214年1月3日" };
+    const EMAILL_MAIL_10 = { sender: "笑面青江", subject: "去る", body: "主、数珠丸さんが決まったよ。\n主人，数珠丸定下来了。\n\n1月8日でこの本丸を去るそうだ。\n1月8日离开这所本丸。\n\n……『よかったじゃないか』って言ったんだ。\n……我跟他说\"这不是挺好的吗\"。\n\n『新しい場所なら、新しい何かがあるかもしれない』ってね。\n\"新的地方，说不定会有新的开始\"。\n\nそしたら彼、『そうだな』って笑ったんだよ。\n然后他笑了，说\"是啊\"。\n\nあの、笑ってるのに泣いてるような顔でさ。\n用那张，明明在笑却像在哭的脸。\n\nああいう顔、僕は好きじゃないな。\n那种表情，我不太喜欢。\n\n2214年1月5日" };
+    const EMAILL_MAIL_11 = { sender: "笑面青江", subject: "別れ", body: "行ったよ、数珠丸恒次。\n他走了哦，数珠丸恒次。\n\n最後に主の部屋の前で立ち止まって、何かを言いかけて、やめた。\n最后在主人房门前停下脚步，想说什么，又咽了回去。\n\n『お元気で』って、それだけ。\n\"请多保重\"，就这一句。\n\nあの人が言える最大限のことだったんだろうね。\n那大概是，那个人所能说出的最大限度的话了。\n\n……主、彼、最後まで『何か』を感じてたと思うよ。\n……主人，我觉得他，到最后都感觉到了\"什么\"哦。\n\nでも、それを『言葉』にできなかった。\n但是，他无法把它变成\"语言\"。\n\nそれが彼という刀だ。\n那就是他这把刀啊。\n\n僕には、ああはできないな。\n我可做不到那样。\n\n2214年1月8日" };
+    const EMAILL_MAIL_12 = { sender: "笑面青江", subject: "静寂", body: "数珠丸さんが去って、本丸が急に静かになったね。\n数珠丸走后，本丸突然安静了呢。\n\n彼の読経の声がないと、こんなにも静かなんだ。\n没有他读经的声音，竟然会这么安静。\n\n……主、寂しい？\n……主人，您寂寞吗？\n\n僕は結構寂しいよ。\n我是挺寂寞的哦。\n\nだってあの人の『気づかないふり』、見てる分には面白かったんだから。\n毕竟那个人\"假装没发现\"的样子，看着还挺有趣的。\n\n寂しいって言うと、なんか負けみたいだね。\n说寂寞的话，总觉得像输了似的。\n\n2214年1月14日" };
+    const EMAILL_MAIL_13 = { sender: "笑面青江", subject: "最後", body: "行ってらっしゃい、主。\n您走好，主人。\n\n……なんて、言わないよ。\n……这种话，我是不会说的。\n\nだって、君は戻ってくるつもりがないんだろう？\n因为您根本没打算回来吧？\n\n数珠丸さんみたいに、『また会える』なんて嘘は言わないさ。\n我不会像数珠丸那样说\"还会再见\"这种谎话。\n\nただ、一つだけ事実を言うなら——彼は、君のことを一度も恨まなかった。\n只是，如果说一个事实的话——他，一次都没有恨过您。\n\nそれが数珠丸恒次という刀だ。\n那就是名为数珠丸恒次的这把刀。\n\n……僕は、それでよかったと思うよ。\n……我觉得，这样也挺好的。\n\nじゃあね、主。\n再见了，主人。\n\nどこかで会うことがあったら、その時は笑って話そう。\n如果在哪里相遇的话，到时候笑着聊吧。\n\n2214年1月19日" };
+    const EMAILL_MAIL_14 = { sender: "笑面青江", subject: "新しい本丸", body: "新しい本丸、なかなか面白いよ。\n新本丸还挺有意思的。\n\nこっちの審神者は、数珠丸さんのことを『伝説の刀』って呼んでる。\n这边的审神者管数珠丸叫\"传说中的刀\"。\n\n彼がかつてあの本丸にいたことなんて、誰も知らない。\n没谁知道他曾经待过那所本丸。\n\n……知らないほうがいいこともあるんだろうね。\n……有些事不知道也好吧。\n\n僕も、知らないふりを続けるよ。\n我也会继续假装不知道的。\n\nだってそれが、あの人から教わった『流儀』だからね。\n毕竟那是那个人教会我的\"做派\"啊。\n\nまあ、これからも適当にやっていくよ。\n嘛，接下来我也会随便过下去的。\n\n2214年4月11日" };
+    const EMAILL_MAIL_15 = { sender: "笑面青江", subject: "終わり", body: "あの日からもう一年になりますね。\n距离那一天已经一年了啊。\n\n主、一つだけ本音を言うね。\n主人，我就说一句真心话吧。\n\n数珠丸恒次は、君が彼を遠ざけたことを、永遠に覚えない。\n数珠丸恒次永远不会记得您把他推开了。\n\n彼の記憶から消えた君は、ただの『誰か』だ。\n从记忆中消失的您，不过是个\"某人\"。\n\nでもね、僕は見てたよ。\n但是啊，我看见了哦。\n\n彼が去る日、君の名前を、口に出さずに何度も何度も唇だけでなぞってた。\n他离开的那天，您的名字，他没有出声却用嘴唇描摹了一遍又一遍。\n\nあれは、『覚えている』という証拠じゃないか。\n那不是\"记得\"的证据吗？\n\n……記憶がなくても、心は覚えてる。\n……就算没有记忆，心还记得。\n\nそんなの、何の救いにもならないのにね。\n明明那种事，什么也拯救不了啊。\n\nこの手紙は、送らないよ。\n这封信，我不会寄出的。\n\nだって、送ったら終わりだからね。\n因为一旦寄出，就真的结束了。\n\n2215年1月18日" };
+    const EMAILL_MAIL_16 = { sender: "笑面青江", subject: "返事", body: "ああ、そうか。君が言ってたあの話ね——『送らないって書いてたのに、なんで送ったの？』ってやつ。\n啊，这样啊。你在说那件事吧——就是\"明明写了'不寄'，为什么还是寄了\"那个。\n\n君からのメールが来たとき、『ああ、やっぱり聞かれるんだな』って思ったよ。\n收到你的邮件的时候，我心想\"啊，果然会被问呢\"。\n\nまあ、聞かれるってわかってて送ったんだけどね。\n嘛，虽然本来就知道会被问才寄的。\n\nで、答えだけど——あの手紙、結局送ったんだよね。\n至于答案——那封信，最后还是寄出去了。\n\n『送らない』って書いておいて、よくもまあ平然と送ったもんだって、君は思ってるかもしれない。\n写了\"不寄\"还若无其事地寄了——你大概在想我这个人怎么回事吧。\n\n……まあ、そういうことにするよ。\n……嘛，就当是那么回事好了。\n\nでもね、僕も少し考えたんだ。\n不过呢，我也稍微想了想。\n\nあの手紙を送らなかったら、君はきっと、数珠丸さんのことを『何も覚えていない人』のまま、終わらせてしまうだろうなって。\n如果那封信没有寄出去，你大概就会把数珠丸先生当成\"什么都不记得的人\"，就这么结束了吧。\n\nそれでいいって思うかもしれない。でもそれって、あんまりにも……そうだな、もったいない気がするんだ。\n你可能觉得那样也行。但我觉得那样的话，也太……怎么说呢，太可惜了。\n\nあの人の心が覚えてるものは、彼自身の記憶よりずっと確かだと思うんだよね。\n我觉得那个人心里记得的东西，比他自己拥有的记忆要真切得多。\n\nだから、そのことを知った以上、黙ってるほうが逆に『終わり』なんじゃないかな、って。\n既然知道这一点，沉默反而更像是一种\"结束\"吧。\n\n……まあ、僕の勝手な考えだけど。\n……嘛，这只是我自作主张的想法罢了。\n\n送るって決めたのは、たぶん、この手紙が届くべき『時』が来たからなんだろうね。\n决定寄出去，大概只是因为，这封信到了该到的时候吧。\n\n運命的な話、ってやつ？……いや、そんな大げさなもんじゃないよ。\n像命运一样的东西？……不，没那么夸张啦。\n\nただの、僕の気まぐれだ。そういうことにしておいて。\n不过是我的一时兴起。就当作是这样好了。\n\nまたメールするよ。暇だったら返してね。\n我会再发邮件的。有空的话回我吧。" };
+
 
     const MAIL_DATA_MAP = {
         base_0: BASE_MAIL_DATA[0],
@@ -292,7 +309,23 @@
         tip: TIP_MAIL,
         guide_1: GUIDE_MAIL_1,
         guide_2: GUIDE_MAIL_2,
-        credit: CREDIT_MAIL
+        credit: CREDIT_MAIL,
+        emaill: EMAILL_MAIL,
+        emaill2: EMAILL_MAIL_2,
+        emaill3: EMAILL_MAIL_3,
+        emaill4: EMAILL_MAIL_4,
+        emaill5: EMAILL_MAIL_5,
+        emaill6: EMAILL_MAIL_6,
+        emaill7: EMAILL_MAIL_7,
+        emaill8: EMAILL_MAIL_8,
+        emaill9: EMAILL_MAIL_9,
+        emaill10: EMAILL_MAIL_10,
+        emaill11: EMAILL_MAIL_11,
+        emaill12: EMAILL_MAIL_12,
+        emaill13: EMAILL_MAIL_13,
+        emaill14: EMAILL_MAIL_14,
+        emaill15: EMAILL_MAIL_15,
+        emaill16: EMAILL_MAIL_16
     };
 
     const playlist = [
@@ -425,6 +458,22 @@
         locationAgreed: false,
         sosSent: false,
         missingInspectorMailRead: false,
+        emaillSendMailShown: false,
+        emaillSecondMailShown: false,
+        emaillThirdMailShown: false,
+        emaillFourthMailShown: false,
+        emaillFifthMailShown: false,
+        emaillSixthMailShown: false,
+        emaillSeventhMailShown: false,
+        emaillEighthMailShown: false,
+        emaillNinthMailShown: false,
+        emaillTenthMailShown: false,
+        emaillEleventhMailShown: false,
+        emaillTwelfthMailShown: false,
+        emaillThirteenthMailShown: false,
+        emaillFourteenthMailShown: false,
+        emaillFifteenthMailShown: false,
+        emaillSixteenthMailShown: false,
         triggeredAttachmentReplies: {
             bg1: false, bg3: false, bg4: false,
             diary: false, healthReport: false,
@@ -516,8 +565,7 @@
             "重要的是你回到了属于你的地方"
         ] },
         "迷途": { image: "assets/images/mitu_end.jpg", title: "迷途", subtitle: "Sad End", audio: "assets/audio/mitu_bgm.mp3", texts: [
-            "众生迷途，不知出要",
-            "无明长夜，轮转不息",
+            "\"众生迷途，不知出要。\"——《华严经》",
             "你忘记了为什么启航",
             "你只是麻木的行走在时光中",
             "一如过往"
@@ -1480,6 +1528,22 @@
         if (state.tipMailShown) displayMails.push({ id: 'tip', data: TIP_MAIL });
         if (state.tipMailCount >= 2) displayMails.push({ id: 'guide_1', data: GUIDE_MAIL_1 });
         if (state.tipMailCount >= 3) displayMails.push({ id: 'guide_2', data: GUIDE_MAIL_2 });
+        if (state.emaillSendMailShown) displayMails.push({ id: 'emaill', data: EMAILL_MAIL });
+        if (state.emaillSecondMailShown) displayMails.push({ id: 'emaill2', data: EMAILL_MAIL_2 });
+        if (state.emaillThirdMailShown) displayMails.push({ id: 'emaill3', data: EMAILL_MAIL_3 });
+        if (state.emaillFourthMailShown) displayMails.push({ id: 'emaill4', data: EMAILL_MAIL_4 });
+        if (state.emaillFifthMailShown) displayMails.push({ id: 'emaill5', data: EMAILL_MAIL_5 });
+        if (state.emaillSixthMailShown) displayMails.push({ id: 'emaill6', data: EMAILL_MAIL_6 });
+        if (state.emaillSeventhMailShown) displayMails.push({ id: 'emaill7', data: EMAILL_MAIL_7 });
+        if (state.emaillEighthMailShown) displayMails.push({ id: 'emaill8', data: EMAILL_MAIL_8 });
+        if (state.emaillNinthMailShown) displayMails.push({ id: 'emaill9', data: EMAILL_MAIL_9 });
+        if (state.emaillTenthMailShown) displayMails.push({ id: 'emaill10', data: EMAILL_MAIL_10 });
+        if (state.emaillEleventhMailShown) displayMails.push({ id: 'emaill11', data: EMAILL_MAIL_11 });
+        if (state.emaillTwelfthMailShown) displayMails.push({ id: 'emaill12', data: EMAILL_MAIL_12 });
+        if (state.emaillThirteenthMailShown) displayMails.push({ id: 'emaill13', data: EMAILL_MAIL_13 });
+        if (state.emaillFourteenthMailShown) displayMails.push({ id: 'emaill14', data: EMAILL_MAIL_14 });
+        if (state.emaillFifteenthMailShown) displayMails.push({ id: 'emaill15', data: EMAILL_MAIL_15 });
+        if (state.emaillSixteenthMailShown) displayMails.push({ id: 'emaill16', data: EMAILL_MAIL_16 });
         return displayMails;
     }
 
@@ -1491,7 +1555,19 @@
             requestSave();
         }
         const m = MAIL_DATA_MAP[mailId] || BASE_MAIL_DATA[0];
-        if (dom.mailContent) dom.mailContent.innerHTML = `<div style="font-weight:bold;">${escapeHtml(m.subject)}</div><div style="color:#888;">${escapeHtml(m.sender)}</div><div style="white-space:pre-wrap;margin-top:12px;">${escapeHtml(m.body)}</div>`;
+        if (dom.mailContent) dom.mailContent.innerHTML = `<div style="font-weight:bold;">${escapeHtml(m.subject)}</div><div style="color:#888;">${escapeHtml(m.sender)}</div><div style="white-space:pre-wrap;margin-top:12px;">${formatMailBody(m.body)}</div>`;
+    }
+
+    function formatMailBody(body) {
+        const lines = body.split('\n');
+        return lines.map(line => {
+            if (!line.trim()) return '';
+            if (/[\u3040-\u309F\u30A0-\u30FF]/.test(line)) {
+                return `<span style="color:#8a76c5;">${escapeHtml(line)}</span>`;
+            } else {
+                return `<span style="color:#2a1a4a;">${escapeHtml(line)}</span>`;
+            }
+        }).join('\n');
     }
 
     function handleSendMail() {
@@ -1505,6 +1581,86 @@
             showNotification('已与 J-0108 建立联系');
             saveChatMessage({ type: 'received', content: { jp:"お邪魔いたします。特殊な状況でございますので、勝手に通信回線を確保させていただきました。どうか、ご容赦ください。", cn:"叨扰了。因为是特殊状况，所以未经允许擅自添加了您的通讯。还请见谅。" } }, 'juzumaru');
             updateChatInputHints();
+        }
+        if (recipientVal === '笑面青江' && state.j0108ContactUnlocked && calendarSelectedDate >= '2216-11-13' && !state.emaillSendMailShown) {
+            state.emaillSendMailShown = true;
+            showNotification('收到新邮件：关于那个人的事');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillSendMailShown && calendarSelectedDate >= '2213-05-05' && calendarSelectedDate <= '2213-07-15' && !state.emaillSecondMailShown) {
+            state.emaillSecondMailShown = true;
+            showNotification('收到新邮件：主');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillSecondMailShown && calendarSelectedDate >= '2213-07-16' && calendarSelectedDate <= '2213-08-12' && !state.emaillThirdMailShown) {
+            state.emaillThirdMailShown = true;
+            showNotification('收到新邮件：主の部屋');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillThirdMailShown && calendarSelectedDate >= '2213-08-13' && calendarSelectedDate <= '2213-09-01' && !state.emaillFourthMailShown) {
+            state.emaillFourthMailShown = true;
+            showNotification('收到新邮件：仏間');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillFourthMailShown && calendarSelectedDate >= '2213-09-02' && calendarSelectedDate <= '2213-10-02' && !state.emaillFifthMailShown) {
+            state.emaillFifthMailShown = true;
+            showNotification('收到新邮件：霊力');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillFifthMailShown && calendarSelectedDate >= '2213-10-03' && calendarSelectedDate <= '2213-11-14' && !state.emaillSixthMailShown) {
+            state.emaillSixthMailShown = true;
+            showNotification('收到新邮件：名前');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillSixthMailShown && calendarSelectedDate >= '2213-11-15' && calendarSelectedDate <= '2213-12-31' && !state.emaillSeventhMailShown) {
+            state.emaillSeventhMailShown = true;
+            showNotification('收到新邮件：封印');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillSeventhMailShown && calendarSelectedDate >= '2214-01-01' && calendarSelectedDate <= '2214-01-02' && !state.emaillEighthMailShown) {
+            state.emaillEighthMailShown = true;
+            showNotification('收到新邮件：新年');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillEighthMailShown && calendarSelectedDate >= '2214-01-03' && calendarSelectedDate <= '2214-01-04' && !state.emaillNinthMailShown) {
+            state.emaillNinthMailShown = true;
+            showNotification('收到新邮件：異動');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillNinthMailShown && calendarSelectedDate >= '2214-01-05' && calendarSelectedDate <= '2214-01-07' && !state.emaillTenthMailShown) {
+            state.emaillTenthMailShown = true;
+            showNotification('收到新邮件：去る');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillTenthMailShown && calendarSelectedDate >= '2214-01-08' && calendarSelectedDate <= '2214-01-13' && !state.emaillEleventhMailShown) {
+            state.emaillEleventhMailShown = true;
+            showNotification('收到新邮件：別れ');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillEleventhMailShown && calendarSelectedDate >= '2214-01-14' && calendarSelectedDate <= '2214-01-18' && !state.emaillTwelfthMailShown) {
+            state.emaillTwelfthMailShown = true;
+            showNotification('收到新邮件：静寂');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillTwelfthMailShown && calendarSelectedDate >= '2214-01-19' && calendarSelectedDate <= '2214-04-10' && !state.emaillThirteenthMailShown) {
+            state.emaillThirteenthMailShown = true;
+            showNotification('收到新邮件：最後');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillThirteenthMailShown && calendarSelectedDate >= '2214-04-11' && calendarSelectedDate <= '2215-01-17' && !state.emaillFourteenthMailShown) {
+            state.emaillFourteenthMailShown = true;
+            showNotification('收到新邮件：新しい本丸');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillFourteenthMailShown && calendarSelectedDate >= '2215-01-18' && !state.emaillFifteenthMailShown) {
+            state.emaillFifteenthMailShown = true;
+            showNotification('收到新邮件：終わり');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
+        }
+        if (recipientVal === '笑面青江' && state.emaillFifteenthMailShown && calendarSelectedDate >= '2216-01-13' && !state.emaillSixteenthMailShown) {
+            state.emaillSixteenthMailShown = true;
+            showNotification('收到新邮件：返事');
+            if (dom.mailScreen && dom.mailScreen.style.display === 'flex') renderMailList();
         }
         if (/tip|提示/i.test(msgVal) && /作者|author|开发者|developer|制作者|creator/i.test(recipientVal)) {
             state.tipMailCount = (state.tipMailCount || 0) + 1;
