@@ -2195,12 +2195,12 @@
         const overlay = dom.darkOverlay;
         if (!overlay) return;
         overlay.classList.remove('phase-1', 'phase-2', 'phase-3');
-        if (state.dateJumpCount >= 5) {
+        if (state.dateJumpCount >= 9) {
             overlay.style.display = 'block';
-            if (state.dateJumpCount >= 12) {
+            if (state.dateJumpCount >= 25) {
                 overlay.classList.add('phase-3');
                 setGlitchImage(3);
-            } else if (state.dateJumpCount >= 8) {
+            } else if (state.dateJumpCount >= 17) {
                 overlay.classList.add('phase-2');
                 setGlitchImage(2);
             } else {
