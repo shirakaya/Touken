@@ -565,7 +565,8 @@
             "重要的是你回到了属于你的地方"
         ] },
         "迷途": { image: "assets/images/mitu_end.jpg", title: "迷途", subtitle: "Sad End", audio: "assets/audio/mitu_bgm.mp3", texts: [
-            "\"众生迷途，不知出要。\"——《华严经》",
+            "众生迷途，不知出要",
+            "诸法轮转，无有止息",
             "你忘记了为什么启航",
             "你只是麻木的行走在时光中",
             "一如过往"
@@ -665,11 +666,16 @@
         });
 
         const pairs = stage.querySelectorAll('.ending-text-pair');
-        if (pairs.length === 0) return;
+        if (pairs.length === 0) { state.endingTriggered = false; saveAll(); return; }
 
         let current = 0;
         const fadeDuration = 1000;
         const holdDuration = 3000;
+
+        const skipHint = document.createElement('div');
+        skipHint.style.cssText = 'position:absolute;bottom:40px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.5);font-size:14px;opacity:0;transition:opacity 1s;pointer-events:none;z-index:100;';
+        skipHint.textContent = '点击屏幕结束';
+        overlay.appendChild(skipHint);
 
         function cycle() {
             pairs[current].classList.remove('active');
@@ -679,6 +685,16 @@
                     pairs[current].classList.add('active');
                     if (current + 1 < pairs.length) {
                         setTimeout(cycle, holdDuration + fadeDuration * 2);
+                    } else {
+                        setTimeout(() => {
+                            skipHint.style.opacity = '1';
+                            overlay.addEventListener('click', () => {
+                                endingBgm.pause();
+                                endingBgm.currentTime = 0;
+                                localStorage.clear();
+                                location.reload();
+                            });
+                        }, holdDuration + fadeDuration);
                     }
                 }
             }, fadeDuration);
@@ -686,13 +702,6 @@
 
         pairs[0].classList.add('active');
         setTimeout(cycle, holdDuration + fadeDuration);
-
-        overlay.addEventListener('click', () => {
-            endingBgm.pause();
-            endingBgm.currentTime = 0;
-            localStorage.clear();
-            location.reload();
-        });
     }
 
     function saveAll() {
@@ -1834,7 +1843,7 @@
         handleDateJumpTriggers();
         if (state.endingTriggered) return;
         sendDateJumpReplyIfNeeded();
-        if (state.dateJumpCount >= 20 && !state.endingTriggered) {
+        if (state.dateJumpCount >= 20 && !state.endingTriggered && !state.locationAgreed) {
             showEnding("迷途", "Sad End");
             return;
         }
@@ -1971,7 +1980,6 @@
             if (dom.homeScreen) dom.homeScreen.style.display = '';
             updateClockDate();
             if (state.battery <= 0 && !state.endingTriggered) {
-                state.endingTriggered = true; saveAll();
                 showEnding("如是观", "Reload End");
             }
         } else if (id === 'messageList') {
@@ -2092,12 +2100,11 @@
             if(!state.endingTriggered) showEnding("如是观", "Reload End");
             return;
         }
-        state.battery=Math.max(0,state.battery-(state.battery>20?1:Math.ceil(Math.random()*3)));
+        state.battery=Math.max(0,state.battery-1);
         const bp = document.getElementById('batteryPercent'); if(bp) bp.innerText=state.battery+'%';
         const bf = document.getElementById('batteryFill'); if(bf) bf.style.width=state.battery+'%';
         if(state.battery<=10 && !state.batteryLowAlertShown){ state.batteryLowAlertShown=true; showNotification('电量过低，请尽快连接电源'); }
         if(state.battery<=0){
-            state.endingTriggered=true; saveAll();
             showEnding("如是观", "Reload End");
         }
     },30000);
