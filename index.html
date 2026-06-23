@@ -1900,6 +1900,7 @@
 
     function restartAction() {
         state.restartCount++;
+        saveAll();
         if (state.sosSent && state.restartCount >= 3 && !state.endingTriggered) {
             showEnding("徒然无所得", "Normal End");
             return;
@@ -1907,7 +1908,7 @@
         const overlay = document.createElement('div'); overlay.className='restart-overlay'; overlay.innerHTML = '<div>重启中</div>';
         const phoneInner = document.getElementById('phoneInner');
         if (phoneInner) phoneInner.appendChild(overlay);
-        setTimeout(()=> { overlay.remove(); location.reload(); }, 4000);
+        setTimeout(()=> { overlay.remove(); showScreen('home'); }, 4000);
     }
 
     function renderSettingsList() {
