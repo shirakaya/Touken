@@ -195,6 +195,7 @@
         .offline-banner.show { display: block; }
     </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 <div class="phone-container" id="phoneContainer">
@@ -1120,26 +1121,28 @@
     function insertLocationPrompt() {
         const container = dom.chatMessages;
         if (!container) return;
+        if (container.querySelector('.location-prompt-message')) return;
         const promptDiv = document.createElement('div');
         promptDiv.className = 'location-prompt-message';
-        promptDiv.innerHTML = `<div class="location-prompt-text">是否授权获取当前位置？</div><div class="location-prompt-buttons"><button class="location-prompt-btn yes" id="locationYesBtn">是</button><button class="location-prompt-btn" id="locationNoBtn">否</button></div>`;
+        promptDiv.innerHTML = `<div class="location-prompt-text">是否授权获取当前位置？</div><div class="location-prompt-buttons"><button class="location-prompt-btn yes" data-loc="yes">是</button><button class="location-prompt-btn" data-loc="no">否</button></div>`;
         container.appendChild(promptDiv);
         container.scrollTop = container.scrollHeight;
-        const yesBtn = document.getElementById('locationYesBtn');
-        const noBtn = document.getElementById('locationNoBtn');
-        if (yesBtn) yesBtn.addEventListener('click', () => {
+        promptDiv.addEventListener('click', (e) => {
             if (state.locationPromptAnswered) return;
-            state.locationPromptAnswered = 'yes';
-            state.locationAgreed = true; requestSave();
-            promptDiv.innerHTML = '<div class="location-prompt-text">✓ 已授权位置信息</div>';
-            proceedAfterLocationChoice(true);
-        });
-        if (noBtn) noBtn.addEventListener('click', () => {
-            if (state.locationPromptAnswered) return;
-            state.locationPromptAnswered = 'no';
-            state.locationAgreed = false; requestSave();
-            promptDiv.innerHTML = '<div class="location-prompt-text">✗ 已拒绝授权</div>';
-            proceedAfterLocationChoice(false);
+            const btn = e.target.closest('[data-loc]');
+            if (!btn) return;
+            const choice = btn.dataset.loc;
+            if (choice === 'yes') {
+                state.locationPromptAnswered = 'yes';
+                state.locationAgreed = true; requestSave();
+                promptDiv.innerHTML = '<div class="location-prompt-text">✓ 已授权位置信息</div>';
+                proceedAfterLocationChoice(true);
+            } else if (choice === 'no') {
+                state.locationPromptAnswered = 'no';
+                state.locationAgreed = false; requestSave();
+                promptDiv.innerHTML = '<div class="location-prompt-text">✗ 已拒绝授权</div>';
+                proceedAfterLocationChoice(false);
+            }
         });
     }
 
@@ -1995,6 +1998,9 @@
             setOnlineStatus();
             updateChatInputHints();
             loadChatHistory();
+            if (state.j0108IntroSequenceTriggered && state.locationPromptAnswered === null && currentContact === 'juzumaru') {
+                insertLocationPrompt();
+            }
         } else if (id === 'mail') {
             if (dom.mailScreen) dom.mailScreen.style.display = 'flex';
             renderMailList();
